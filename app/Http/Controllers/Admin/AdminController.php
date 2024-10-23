@@ -53,7 +53,7 @@ class AdminController extends Controller
         $roles = Role::whereIn('name', $request->input('roles'))->get()->pluck('name')->toArray();
 
         $admin->syncRoles($roles);
-        return redirect()->route("admins.index")->with("success", "تم إضافه المستخدم بنجاح");
+        return redirect()->route("admins.index")->with("success", __('message.SuccessAddAdmin'));
     }
 
     /**
@@ -72,7 +72,7 @@ class AdminController extends Controller
         $admin = Admin::find($id);
         $roles = Role::pluck('name', 'name')->all();
         $adminRole = $admin->roles->pluck('name', 'name')->all();
-        return view("admin.admins.edit", compact("user", "roles", "userRole"));
+        return view("admin.admins.edit", compact("admin", "roles", "adminRole"));
     }
 
     /**
@@ -83,7 +83,7 @@ class AdminController extends Controller
 
         $exists = Admin::where("username", $request->username)->where("id", '!=', $id)->first();
         if ($exists) {
-            return redirect()->back()->with('warning', 'اسم المستخدم موجود بالفعل')->withInput();
+            return redirect()->back()->with('warning', __('message.FoundAdmin'))->withInput();
         }
 
         $admin = Admin::findOrFail($id);
@@ -98,7 +98,7 @@ class AdminController extends Controller
         $roles = Role::whereIn('name', $request->input('roles'))->get()->pluck('name')->toArray();
 
         $admin->syncRoles($roles);
-        return redirect()->route("admins.index")->with("success", "تم التعديل  بنجاح");
+        return redirect()->route("admins.index")->with("success", __('meaasge.SuccessEdit'));
     }
 
     /**
@@ -108,7 +108,7 @@ class AdminController extends Controller
     {
         $admin = Admin::findOrFail($id);
         if (!$admin) {
-            return redirect()->back()->with('warning', 'اسم المستخدم غير موجود بالفعل');
+            return redirect()->back()->with('warning', __('message.AdminNotFound'));
         }
         if ($admin->image) {
             $imagePath = public_path('assets/admins/images/' . $admin->image);
@@ -117,6 +117,13 @@ class AdminController extends Controller
             }
         }
         $admin->delete();
-        return redirect()->route('admins.index')->with(['success' => 'تم الحذف بنجاح']);
+        return redirect()->route('admins.index')->with(['success' => __('message.SuccessDelete')]);
+    }
+    public function ajax_search(Request $request)
+    {
+        if ($request->ajax()) {
+            $admins = Admin::where('name', 'LIKE', '%' . $request->search_by_text . '%')->orderBy("id", "ASC")->paginate(COUNT);
+            return view("admin.admins.ajax_search", ["admins" => $admins]);
+        }
     }
 }

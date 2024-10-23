@@ -22,7 +22,12 @@ class AdminUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "name" => "required|max:50",
+            "username" => "required|max:50",
+            "password" => "nullable|min:4|max:50",
+            "status" => "required",
+            "roles" => "array|required",
+
         ];
     }
 }

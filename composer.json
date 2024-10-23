@@ -13,6 +13,7 @@
         "laravolt/avatar": "^6.0",
         "mcamara/laravel-localization": "^2.0",
         "php-flasher/flasher-laravel": "^1.15",
+        "php-flasher/php-flasher": "^1.15",
         "spatie/laravel-permission": "^6.9"
     },
     "require-dev": {

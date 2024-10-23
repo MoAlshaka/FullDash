@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    {{ $app_name }} - المستخدمين
+    {{ env('APP_NAME') }} - {{ __('title.Admins') }}
 @endsection
 
 
@@ -11,7 +11,8 @@
 
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="py-3 mb-4"><span class="text-muted fw-light">الرئيسية /</span> المستخدمين</h4>
+        <h4 class="py-3 mb-4"><span class="text-muted fw-light">{{ __('site.Dashboard') }} /</span> {{ __('site.Admins') }}
+        </h4>
         @if (session()->has('Add'))
             <div class="alert alert-success" role="alert">{{ session()->get('Add') }}</div>
         @endif
@@ -26,72 +27,73 @@
         @endif
         <div class="card">
             <div class="d-flex justify-content-between align-items-center">
-                <h5 class="card-header">المستخدمين</h5>
-                @can('إضافة مستخدم')
-                    <a href="{{ route('users.create') }}" class="btn btn-sm btn-success m-2">
-                        إضافه
+                <h5 class="card-header">{{ __('site.Admins') }}</h5>
+                @can('Add Admin')
+                    <a href="{{ route('admins.create') }}" class="btn btn-sm btn-success m-2">
+                        {{ __('site.Add') }}
                     </a>
                 @endcan
 
             </div>
             <div class="table-responsive text-nowrap">
-                <input type="hidden" id="ajax_search_url" value="{{ route('users.ajax_search') }}">
+                <input type="hidden" id="ajax_search_url" value="{{ route('admins.ajax_search') }}">
                 <input type="hidden" id="token_search" value="{{ csrf_token() }}">
                 <div class="col-md-6 p-2">
-                    <input type="text" id="search_by_text" placeholder="بحث بالاسم" class="form-control">
+                    <input type="text" id="search_by_text" placeholder="{{ __('site.SearchByName') }}"
+                        class="form-control">
                     <br />
                 </div>
                 <div id="ajax_search_table">
-                    @if (@isset($users) && count($users) > 0)
+                    @if (@isset($admins) && count($admins) > 0)
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>الاسم</th>
-                                    <th>اسم المستخدم</th>
-                                    <th>الحاله</th>
-                                    <th>الهاتف</th>
-                                    <th>المزيد</th>
+                                    <th>{{ __('site.Name') }}</th>
+                                    <th>{{ __('site.Username') }}</th>
+                                    <th>{{ __('site.Status') }}</th>
+                                    <th>{{ __('site.Phone') }}</th>
+                                    <th>{{ __('site.More') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @php
                                     $i = 1;
                                 @endphp
-                                @foreach ($users as $user)
+                                @foreach ($admins as $admin)
                                     <tr>
                                         <td>{{ $i++ }}</td>
                                         <td>
-                                            {{ $user->name }}
-                                            @if (auth()->user()->id == $user->id)
-                                                <span class="badge bg-gray"> أنت</span>
+                                            {{ $admin->name }}
+                                            @if (auth()->user()->id == $admin->id)
+                                                <span class="badge bg-gray"> {{ __('site.You') }}</span>
                                             @endif
                                         </td>
-                                        <td> {{ $user->username }}</td>
+                                        <td> {{ $admin->username }}</td>
                                         <td>
-                                            @if ($user->status == 1)
-                                                <span class="badge bg-success">مفعل</span>
+                                            @if ($admin->status == 1)
+                                                <span class="badge bg-success">{{ __('site.Active') }}</span>
                                             @else
-                                                <span class="badge bg-danger">معطل</span>
+                                                <span class="badge bg-danger">معطل{{ __('site.InActive') }}</span>
                                             @endif
                                         </td>
-                                        <td>{{ $user->phone ?? 'ـــــــــ' }}</td>
+                                        <td>{{ $admin->phone ?? 'ـــــــــ' }}</td>
 
                                         <td class="text-center d-flex">
-                                            @can('تعديل مستخدم')
-                                                <a href="{{ route('users.edit', $user->id) }}"
+                                            @can('Edit Admin')
+                                                <a href="{{ route('admins.edit', $admin->id) }}"
                                                     class="btn btn-sm btn-info me-2">
-                                                    <i class="fa fa-edit"></i> تعديل
+                                                    <i class="fa fa-edit"></i> {{ __('site.Edit') }}
                                                 </a>
                                             @endcan
-                                            @can('حذف مستخدم')
-                                                @if (auth()->user()->id !== $user->id)
-                                                    <form id="user-delete-{{ $user->id }}"
-                                                        action="{{ route('users.destroy', $user->id) }}" method="post">
+                                            @can('Delete Admin')
+                                                @if (auth()->user()->id !== $admin->id)
+                                                    <form id="user-delete-{{ $admin->id }}"
+                                                        action="{{ route('admins.destroy', $admin->id) }}" method="post">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-sm btn-danger sa-delete me-2">
-                                                            <i class="fa fa-trash"></i> حذف
+                                                            <i class="fa fa-trash"></i> {{ __('site.Delete') }}
                                                         </button>
                                                     </form>
                                                 @endif
@@ -104,10 +106,10 @@
                             </tbody>
                         </table>
                         <br />
-                        {{ $users->links() }}
+                        {{ $admins->links() }}
                     @else
                         <div class="alert alert-danger">
-                            عفوا لا توجد بيانات لعرضها !!
+                            {{ __('site.NoDataFound') }}
 
                         </div>
                     @endif
@@ -120,5 +122,5 @@
 
 
 @section('js')
-    <script src="{{ asset('assets/javascript/users.js') }}"></script>
+    <script src="{{ asset('assets/javascript/admins.js') }}"></script>
 @endsection

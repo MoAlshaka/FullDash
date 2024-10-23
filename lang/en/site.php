@@ -3,6 +3,10 @@
 return [
     //general
     'Change' => 'Change',
+    'Active' => 'Active',
+    'InActive' => 'InActive',
+    'Status' => 'Status',
+    'SelectStatus' => 'Select status',
     'Reset' => 'Reset',
     'Add' => 'Add',
     'Create' => 'Create',
@@ -35,7 +39,14 @@ return [
     //roles
     'Roles' => 'Roles',
     'RoleName' => 'Role Name',
+    'SelectRoles' => 'Select roles',
     'Permissions' => 'Permissions',
+    //admins
+    'Admins' => 'Admins',
+    'SearchByName' => 'Search by name',
+    'AddNewAdmin' => 'Add New Admin',
+    'EditAdmin' => 'Edit Admin',
+
 
 
 ];

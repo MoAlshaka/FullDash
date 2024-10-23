@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    {{ $app_name }} - إنشاء مستخدم
+    {{ env('APP_NAME') }} - {{ __('title.AddAdmin') }}
 @endsection
 
 
@@ -11,39 +11,40 @@
 
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="py-3 mb-4"><span class="text-muted fw-light">الرئيسية /</span>إنشاء مستخدم</h4>
+        <h4 class="py-3 mb-4"><span class="text-muted fw-light"> {{ __('site.Dashboard') }}/</span> {{ __('site.Admins') }} /
+            {{ __('site.Create') }}</h4>
         <div class="col-xxl">
             <div class="card mb-4">
                 <div class="card-header d-flex align-items-center justify-content-between">
-                    <h5 class="mb-0"> إنشاء مستخدم جديد </h5>
+                    <h5 class="mb-0"> {{ __('site.AddNewAdmin') }}</h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('users.store') }}" method="POST">
+                    <form action="{{ route('admins.store') }}" method="POST">
                         @csrf
                         <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label" for="basic-default-name">الإسم<span
+                            <label class="col-sm-2 col-form-label" for="basic-default-name"> {{ __('site.Name') }}<span
                                     class="text-danger">*</span></label>
                             <div class="col-sm-10">
                                 <input type="text" name="name" class="form-control" id="basic-default-name"
-                                    placeholder="الإسم" value="{{ old('name') }}" />
+                                    placeholder="   {{ __('site.Name') }}" value="{{ old('name') }}" />
                             </div>
                         </div>
                         @error('name')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                         <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label" for="username">اسم المستخدم<span
+                            <label class="col-sm-2 col-form-label" for="username"> {{ __('site.Username') }}<span
                                     class="text-danger">*</span></label>
                             <div class="col-sm-10">
                                 <input type="text" name="username" class="form-control" id="username"
-                                    placeholder="اسم المستخدم" value="{{ old('username') }}" />
+                                    placeholder="   {{ __('site.Username') }}" value="{{ old('username') }}" />
                             </div>
                         </div>
                         @error('username')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                         <div class="row mb-3 form-password-toggle">
-                            <label class="col-sm-2 col-form-label" for="multicol-password">كلمه السر<span
+                            <label class="col-sm-2 col-form-label" for="multicol-password"> {{ __('site.Password') }}<span
                                     class="text-danger">*</span></label>
                             <div class="col-sm-10">
                                 <div class="input-group input-group-merge">
@@ -59,13 +60,15 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                         <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label" for="status">الحاله<span
+                            <label class="col-sm-2 col-form-label" for="status"> {{ __('site.Status') }}<span
                                     class="text-danger">*</span></label>
                             <div class="col-sm-10">
                                 <select id="status" name="status" class=" form-select" data-allow-clear="true">
-                                    <option value="">اختر الحاله</option>
-                                    <option value="1" @if (old('status') == '1') selected @endif>مفعل</option>
-                                    <option value="0" @if (old('status') == '0') selected @endif>معطل</option>
+                                    <option value=""> {{ __('site.SelectStatus') }}</option>
+                                    <option value="1" @if (old('status') == '1') selected @endif>
+                                        {{ __('site.Active') }}</option>
+                                    <option value="0" @if (old('status') == '0') selected @endif>
+                                        {{ __('site.InActive') }}</option>
                                 </select>
                             </div>
                         </div>
@@ -73,12 +76,12 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                         <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label" for="roles">الصلاحية<span
+                            <label class="col-sm-2 col-form-label" for="roles"> {{ __('site.Roles') }}<span
                                     class="text-danger">*</span></label>
                             <div class="col-sm-10">
                                 <select id="roles" name="roles[]" class="select2 form-select" data-allow-clear="true"
                                     multiple>
-                                    <option value="">اختر الصلاحية</option>
+                                    <option value="">{{ __('site.SelectRoles') }}</option>
                                     @foreach ($roles as $role)
                                         <option value="{{ $role }}"
                                             @if (old('roles_name') == $role) selected @endif>
@@ -94,7 +97,7 @@
 
                         <div class="row justify-content-end">
                             <div class="col-sm-10">
-                                <button type="submit" class="btn btn-primary">إضافه</button>
+                                <button type="submit" class="btn btn-primary">{{ __('site.Add') }}</button>
                             </div>
                         </div>
                     </form>

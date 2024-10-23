@@ -1,59 +1,57 @@
 <div id="ajax_search_table">
-    @if (@isset($users) && count($users) > 0)
+    @if (@isset($admins) && count($admins) > 0)
         <table class="table">
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>الاسم</th>
-                    <th>اسم المستخدم</th>
-                    <th>الحاله</th>
-                    <th>الهاتف</th>
-                    <th>المزيد</th>
+                    <th>{{ __('site.Name') }}</th>
+                    <th>{{ __('site.Username') }}</th>
+                    <th>{{ __('site.Status') }}</th>
+                    <th>{{ __('site.Phone') }}</th>
+                    <th>{{ __('site.More') }}</th>
                 </tr>
             </thead>
             <tbody>
                 @php
                     $i = 1;
                 @endphp
-                @foreach ($users as $user)
+                @foreach ($admins as $admin)
                     <tr>
                         <td>{{ $i++ }}</td>
                         <td>
-                            {{ $user->name }}
-                            @if (auth()->user()->id == $user->id)
+                            {{ $admin->name }}
+                            @if (auth()->user()->id == $admin->id)
                                 <span class="badge bg-gray"> أنت</span>
                             @endif
                         </td>
-                        <td> {{ $user->username }}</td>
+                        <td> {{ $admin->username }}</td>
                         <td>
-                            @if ($user->status == 1)
-                                <span class="badge bg-success">مفعل</span>
+                            @if ($admin->status == 1)
+                                <span class="badge bg-success">{{ __('site.Active') }}</span>
                             @else
-                                <span class="badge bg-danger">معطل</span>
+                                <span class="badge bg-danger">معطل{{ __('site.InActive') }}</span>
                             @endif
                         </td>
-                        <td>{{ $user->phone ?? 'ـــــــــ' }}</td>
+                        <td>{{ $admin->phone ?? 'ـــــــــ' }}</td>
 
                         <td class="text-center d-flex">
-                            @can('تعديل مستخدم')
-                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-info me-2">
-                                    <i class="fa fa-edit"></i> تعديل
+                            @can('Edit Admin')
+                                <a href="{{ route('admins.edit', $admin->id) }}" class="btn btn-sm btn-info me-2">
+                                    <i class="fa fa-edit"></i> {{ __('site.Edit') }}
                                 </a>
                             @endcan
-                            @can('حذف مستخدم')
-                                @if (auth()->user()->id !== $user->id)
-                                    <form id="user-delete-{{ $user->id }}"
-                                        action="{{ route('users.destroy', $user->id) }}" method="post">
+                            @can('Delete Admin')
+                                @if (auth()->user()->id !== $admin->id)
+                                    <form id="user-delete-{{ $admin->id }}"
+                                        action="{{ route('admins.destroy', $admin->id) }}" method="post">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger sa-delete me-2">
-                                            <i class="fa fa-trash"></i> حذف
+                                            <i class="fa fa-trash"></i> {{ __('site.Delete') }}
                                         </button>
                                     </form>
                                 @endif
                             @endcan
-
-
                         </td>
                     </tr>
                 @endforeach
@@ -61,11 +59,11 @@
         </table>
         <br />
         <div class="col-md-12" id="ajax_pagination_in_search">
-            {{ $users->links() }}
+            {{ $admins->links() }}
         </div>
     @else
         <div class="alert alert-danger">
-            عفوا لا توجد بيانات لعرضها !!
+            {{ __('site.NoDataFound') }}
 
         </div>
     @endif

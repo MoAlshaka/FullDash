@@ -3,6 +3,10 @@
 return [
     //general
     'Change' => 'تغير',
+    'Active' => 'مفعل',
+    'InActive' => 'معطل',
+    'Status' => 'حاله',
+    'SelectStatus' => 'اختر الحاله',
     'Reset' => 'الغاء',
     'Add' => 'إضافة',
     'Create' => 'إنشاء',
@@ -37,7 +41,14 @@ return [
     //roles
     'Roles' => 'الصلاحيات',
     'RoleName' => 'اسم الصلاحية',
+    'SelectRoles' => 'اختر الصلاحيات',
     'Permissions' => 'أذونات',
+    //admins
+    'Admins' => 'المستخدمين',
+    'SearchByName' => 'بحث بالاسم',
+    'AddNewAdmin' => 'إنشاء مستخدم جديد ',
+    'EditAdmin' => 'تعديل مستخدم ',
+
 
 
 

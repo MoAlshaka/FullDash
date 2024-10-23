@@ -131,6 +131,7 @@
                         </div>
                         @error('password')
                             <div class="text-danger">{{ $message }}</div>
+                            <br />
                         @enderror
                         <button type="submit" class="btn btn-primary d-grid w-100">{{ __('site.Login') }} </button>
                     </form>
