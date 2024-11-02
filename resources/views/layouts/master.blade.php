@@ -45,7 +45,7 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}" />
     <link rel="stylesheet"
         href="{{ asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}" />
-
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/toastr/toastr.css') }}" />
     <!-- Page CSS -->
     @yield('css')
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/app-logistics-dashboard.css') }}" />
@@ -122,10 +122,73 @@
     <!-- Vendors JS -->
     <script src="{{ asset('assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/toastr/toastr.js') }}"></script>
 
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
 
+    <script>
+        @if (Session::has('message'))
+            var type = "{{ Session::get('alert-type', 'info') }}"
+            switch (type) {
+                case 'info':
+
+                    toastr.options = {
+                        "closeButton": true,
+                        "progressBar": true,
+                        "timeOut": 5000, // Duration of the notification
+                        "extendedTimeOut": 5000, // Time to close after hover
+                        "positionClass": "toast-top-right" // Position of the notification
+                    };
+                    toastr.info("{{ Session::get('message') }}");
+                    var audio = new Audio("{{ asset('assets/audio/notification-sound.mp3') }}");
+                    audio.play();
+                    break;
+                case 'success':
+
+                    toastr.options = {
+                        "closeButton": true,
+                        "progressBar": true,
+                        "timeOut": 5000, // Duration of the notification
+                        "extendedTimeOut": 5000, // Time to close after hover
+                        "positionClass": "toast-top-left" // Position of the notification
+                    };
+                    toastr.success("{{ Session::get('message') }}");
+                    var audio = new Audio("{{ asset('assets/audio/notification-sound.mp3') }}");
+                    audio.play();
+
+                    break;
+                case 'warning':
+
+                    toastr.options = {
+                        "closeButton": true,
+                        "progressBar": true,
+                        "timeOut": 5000, // Duration of the notification
+                        "extendedTimeOut": 5000, // Time to close after hover
+                        "positionClass": "toast-top-right" // Position of the notification
+                    };
+                    toastr.warning("{{ Session::get('message') }}");
+                    var audio = new Audio('{{ asset('assets/audio/notification-sound.mp3') }}');
+                    audio.play();
+
+                    break;
+                case 'error':
+
+                    toastr.options = {
+                        "closeButton": true,
+                        "progressBar": true,
+                        "timeOut": 5000, // Duration of the notification
+                        "extendedTimeOut": 5000, // Time to close after hover
+                        "positionClass": "toast-top-right" // Position of the notification
+                    };
+                    toastr.error("{{ Session::get('message') }}");
+                    var audio = new Audio('{{ asset('assets/audio/notification-sound.mp3') }}');
+                    audio.play();
+
+                    break;
+            }
+        @endif
+    </script>
     <!-- Page JS -->
     <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
     <script src="{{ asset('assets/js/forms-selects.js') }}"></script>

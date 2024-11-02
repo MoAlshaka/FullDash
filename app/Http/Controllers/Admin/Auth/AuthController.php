@@ -22,13 +22,23 @@ class AuthController extends Controller
 
         if (auth()->guard('admin')->attempt(['username' => $request->username, 'password' => $request->password])) {
 
-            session()->flash('success', 'تم تسجيل الدخول بنجاح');
 
-            return redirect()->route('admin.dashboard');
+            $message = trans('auth.SuccessLogin');
+            $notification = array(
+                'message' => $message,
+                'alert-type' => 'success'
+            );
+
+            return redirect()->route('admin.dashboard')->with($notification);
         } else {
-            // session()->flash('error', 'اسم المستخدم او كلمة المرور غير صحيحة');
 
-            return redirect()->back()->with(['error' => 'اسم المستخدم او كلمة المرور غير صحيحة']);
+            $message = trans('auth.ErrorLogin');
+            $notification = array(
+                'message' => $message,
+                'alert-type' => 'error'
+            );
+
+            return redirect()->back()->with($notification);
         }
     }
 
@@ -36,7 +46,11 @@ class AuthController extends Controller
     {
         auth()->guard('admin')->logout();
         session()->invalidate();
-        session()->flash('success', 'تم تسجيل الخروج بنجاح');
-        return redirect()->route('get.admin.login');
+        $message = trans('auth.SuccessLogout');
+        $notification = array(
+            'message' => $message,
+            'alert-type' => 'success'
+        );
+        return redirect()->route('get.admin.login')->with($notification);
     }
 }
